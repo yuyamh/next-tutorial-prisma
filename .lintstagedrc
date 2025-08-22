@@ -3,5 +3,5 @@
   "**/*.{ts,tsx,js,jsx,cjs,mjs,md,json,lintstagedrc,yml,yaml}": [
     "prettier --write"
   ],
-  "**/*.prisma": ["prisma format"]
+  "**/*.prisma": ["prisma format && prisma validate"]
 }
