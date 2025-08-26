@@ -1,54 +1,54 @@
 import { env } from "@/env";
-import { prisma } from "@/server/db/prisma";
 import { Role } from "@prisma/client";
+import { deleteAllPosts } from "@/server/dal/post";
+import {
+  createUser,
+  createUsers,
+  deleteAllUsers,
+  getUsers,
+} from "@/server/dal/user";
 
 async function fetchUsers() {
   try {
     // 全投稿を削除
-    await prisma.post.deleteMany();
+    await deleteAllPosts();
 
     // 全ユーザーを削除
-    await prisma.user.deleteMany();
+    await deleteAllUsers();
 
     // ユーザーを1件作成
-    await prisma.user.create({
-      data: {
-        email: "alice@example.com",
-        name: "Alice",
-        role: Role.ADMIN,
-      },
+    await createUser({
+      email: "alice@example.com",
+      name: "Alice",
+      role: Role.ADMIN,
     });
 
     // 複数ユーザーを作成
-    await prisma.user.createMany({
-      data: [
-        {
-          email: "bob@example.com",
-          name: "Bob",
-          role: Role.USER,
-        },
-        {
-          email: "charlie@example.com",
-          name: "Charlie",
-          role: Role.USER,
-        },
-        {
-          email: "eve@example.com",
-          name: "Eve",
-          role: Role.USER,
-        },
-        {
-          email: "dave@example.com",
-          role: Role.USER,
-        },
-      ],
-    });
+    await createUsers([
+      {
+        email: "bob@example.com",
+        name: "Bob",
+        role: Role.USER,
+      },
+      {
+        email: "charlie@example.com",
+        name: "Charlie",
+        role: Role.USER,
+      },
+      {
+        email: "eve@example.com",
+        name: "Eve",
+        role: Role.USER,
+      },
+      {
+        email: "dave@example.com",
+        role: Role.USER,
+      },
+    ]);
 
     // ユーザー一覧を取得
-    const users = await prisma.user.findMany({
-      orderBy: {
-        id: "asc",
-      },
+    const users = await getUsers({
+      id: "asc",
     });
     return users;
   } catch (error) {
