@@ -7,16 +7,24 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint && pnpm eslint . --ext .js,.jsx,.ts,.tsx,.mjs",
+    "lint": "next lint && pnpm eslint . --ext .js,.jsx,.ts,.tsx,.mjs && prisma validate",
     "lint:fix": "next lint --fix &&  pnpm eslint . --ext .js,.jsx,.ts,.tsx,.mjs --fix",
     "typecheck": "tsc --skipLibCheck true --noEmit",
     "typecheck:full": "tsc --skipLibCheck false --noEmit",
     "clean": "git clean -xdf node_modules dist .next",
     "format": "prettier --check \"**/*.{ts,tsx,js,jsx,cjs,mjs,md,json,lintstagedrc,yml,yaml}\" --cache",
-    "format:fix": "prettier --write \"**/*.{ts,tsx,js,jsx,cjs,mjs,md,json,lintstagedrc,yml,yaml}\" --cache",
-    "prepare": "husky"
+    "format:fix": "prettier --write \"**/*.{ts,tsx,js,jsx,cjs,mjs,md,json,lintstagedrc,yml,yaml}\" --cache && prisma format",
+    "prepare": "husky",
+    "db:migrate:dev": "prisma migrate dev",
+    "db:studio": "prisma studio",
+    "db:seed": "prisma db seed",
+    "postinstall": "prisma generate"
+  },
+  "prisma": {
+    "seed": "pnpm tsx src/server/db/prisma/seed.ts"
   },
   "dependencies": {
+    "@prisma/client": "6.5.0",
     "@t3-oss/env-nextjs": "^0.13.8",
     "next": "15.3.1",
     "react": "^19.0.0",
@@ -43,7 +51,9 @@
     "postcss-load-config": "^6.0.1",
     "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.6.14",
+    "prisma": "6.5.0",
     "tailwindcss": "^4",
+    "tsx": "^4.20.5",
     "typescript": "^5",
     "typescript-eslint": "^8.39.1"
   }
