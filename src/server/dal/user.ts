@@ -3,7 +3,7 @@ import "server-only";
 import { prisma } from "@/server/db/prisma";
 import type { User } from "@prisma/client";
 import { type Role } from "@prisma/client";
-import UserSchema from "@/schemas/user.schema";
+import { UserSchema } from "@/server/db/prisma/generated/zod/modelSchema/UserSchema";
 
 export async function createUser(data: {
   email: string;

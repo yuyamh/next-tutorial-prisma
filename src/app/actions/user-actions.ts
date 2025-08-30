@@ -1,6 +1,6 @@
 "use server";
 
-import UserSchema from "@/schemas/user.schema";
+import { UserSchema } from "@/server/db/prisma/generated/zod/modelSchema/UserSchema";
 
 import {
   createUser as dalCreateUser,
