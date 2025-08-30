@@ -4,6 +4,14 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+generator zod {
+  provider          = "zod-prisma-types"
+  useMultipleFiles  = true
+  writeBarrelFiles  = false
+  useTypeAssertions = true
+  output            = "../src/server/db/prisma/generated/zod"
+}
+
 generator client {
   provider      = "prisma-client-js"
   binaryTargets = ["native", "rhel-openssl-3.0.x"]
