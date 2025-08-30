@@ -3,12 +3,20 @@ import "server-only";
 import { prisma } from "@/server/db/prisma";
 import type { User } from "@prisma/client";
 import { type Role } from "@prisma/client";
+import UserSchema from "@/schemas/user.schema";
 
 export async function createUser(data: {
   email: string;
   name?: string | undefined;
   role?: Role;
 }) {
+  const parseResult = UserSchema.omit({ id: true }).safeParse(data);
+  if (!parseResult.success) {
+    throw new Error(
+      `User validation error: ${JSON.stringify(parseResult.error.flatten())}`,
+    );
+  }
+
   const user = await prisma.user.create({
     data,
   });
@@ -23,6 +31,15 @@ export async function createUsers(
     role?: Role;
   }>,
 ) {
+  for (const data of dataArray) {
+    const parseResult = UserSchema.omit({ id: true }).safeParse(data);
+    if (!parseResult.success) {
+      throw new Error(
+        `User validation error: ${JSON.stringify(parseResult.error.flatten())}`,
+      );
+    }
+  }
+
   const result = await prisma.user.createMany({
     data: dataArray,
   });
