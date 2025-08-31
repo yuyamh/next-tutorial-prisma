@@ -26,6 +26,7 @@ datasource db {
 model User {
   id    Int     @id @default(autoincrement())
   email String  @unique
+  /// @zod.string.max(10, { message: "名前は10文字以内で入力してください" })
   name  String?
   role  Role    @default(USER)
   posts Post[]

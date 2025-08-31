@@ -2,7 +2,7 @@
 import { useState, useTransition } from "react";
 import { createUser, deleteUser } from "@/app/actions/user-actions";
 import type { User } from "@prisma/client";
-import { UserSchema } from "@/schemas/user.schema";
+import { UserSchema } from "@/server/db/prisma/generated/zod/modelSchema/UserSchema";
 
 interface UserSectionProps {
   users: User[];
